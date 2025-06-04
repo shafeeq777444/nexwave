@@ -1,7 +1,7 @@
 "use client";
 import Footer from "@/components/Footer";
 import OurService from "@/components/Service/OurService";
-import TeamMembers from "@/components/AboutUs/TeamMembers";
+// import TeamMembers from "@/components/AboutUs/TeamMembers";
 import HeroContent from "@/components/Hero/HeroContent";
 import Navbar from "@/components/Navbar";
 import { Element } from "react-scroll";

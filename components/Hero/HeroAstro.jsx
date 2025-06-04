@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Search, Users, MousePointer, Mail, InstagramIcon } from "lucide-react";
 
@@ -42,26 +42,36 @@ const HeroAstro = () => {
             },
         },
     };
+    const [radius, setRadius] = useState(220); // default for desktop
+
+    useEffect(() => {
+        // only runs in browser
+        const handleResize = () => {
+            setRadius(window.innerWidth <= 768 ? 180 : 220);
+        };
+
+        handleResize(); // set on mount
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
-     <div className="relative rounded-2xl h-[80vh] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
-  {/* Animated background elements */}
-  <motion.div
-    className="absolute  top-40 md:top-10 left-1/2 transform -translate-x-1/2 rounded-xl  py-2 shadow-lg"
-    animate={{ y: [0, -10, 0] }}
-    transition={{
-      duration: 4,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-  >
-    <div className="flex flex-row items-center justify-center  w-120 text-white">
-      <span className="font-bold text-sm md:text-lg  text-center">
-        "Taking your business to new heights"
-      </span>
-      <TrendingUp className="w-4 h-4 text-white" />
-    </div>
-
+        <div className="relative rounded-2xl h-[80vh] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
+            {/* Animated background elements */}
+            <motion.div
+                className="absolute  top-40 md:top-10 left-1/2 transform -translate-x-1/2 rounded-xl  py-2 shadow-lg"
+                animate={{ y: [0, -10, 0] }}
+                transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                }}
+            >
+                <div className="flex flex-row items-center justify-center  w-120 text-white">
+                    <span className="font-bold text-sm md:text-lg  text-center">"Taking your business to new heights"</span>
+                    <TrendingUp className="w-4 h-4 text-white" />
+                </div>
             </motion.div>
             <div className="absolute inset-0">
                 {/* Stars */}
@@ -132,15 +142,7 @@ const HeroAstro = () => {
                         {/* Orbiting elements */}
                         {orbitItems.map((item, i) => {
                             const angle = (360 / orbitItems.length) * i;
-                            let radius;
 
-                            if (window.innerWidth <= 768) {
-                                // Mobile view
-                                radius = 180;
-                            } else {
-                                // Desktop view
-                                radius = 220;
-                            } // adjust for orbit size
                             const x = radius * Math.cos((angle * Math.PI) / 180);
                             const y = radius * Math.sin((angle * Math.PI) / 180);
 
