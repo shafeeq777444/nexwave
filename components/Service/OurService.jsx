@@ -109,26 +109,18 @@ const OurService = () => {
     }
   };
 
-  const overlayVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { duration: 0.3 }
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-20 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <motion.div 
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <motion.h1 
-            className="text-6xl md:text-7xl font-bold text-gray-900 mb-6 tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -136,7 +128,7 @@ const OurService = () => {
             OUR SERVICES
           </motion.h1>
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -147,7 +139,7 @@ const OurService = () => {
 
         {/* Services Grid */}
         <motion.div 
-          className="grid grid-cols-1 gap-8 mb-16"
+          className="grid grid-cols-1 gap-6 sm:gap-8 mb-12 sm:mb-16"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -158,15 +150,26 @@ const OurService = () => {
             return (
               <motion.div
                 key={service.id}
-                className="group relative h-[50vh] bg-white flex rounded-2xl overflow-hidden shadow-lg cursor-pointer"
+                className="group relative bg-white flex flex-col lg:flex-row rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer min-h-[400px] sm:min-h-[450px] lg:h-[50vh]"
                 variants={cardVariants}
                 whileHover="hover"
                 onMouseEnter={() => setHoveredCard(service.id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                {/* Image - positioned based on index */}
+                {/* Mobile Image (always on top) */}
+                <div className="w-full h-48 sm:h-56 lg:hidden overflow-hidden">
+                  <motion.img 
+                    className="w-full h-full object-cover" 
+                    src={service.image} 
+                    alt={service.title}
+                    variants={imageVariants}
+                    whileHover="hover"
+                  />
+                </div>
+
+                {/* Desktop Image - Left side for odd indices */}
                 {!isEven && (
-                  <div className="w-1/2 overflow-hidden">
+                  <div className="hidden lg:block lg:w-1/2 overflow-hidden order-first">
                     <motion.img 
                       className="w-full h-full object-cover" 
                       src={service.image} 
@@ -178,34 +181,39 @@ const OurService = () => {
                 )}
                 
                 {/* Content */}
-                <div className="w-1/2 p-8 flex flex-col justify-center">
-                  <div className="mb-4">
-                    <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium uppercase tracking-wide rounded-full mb-4">
+                <div className="flex-1 lg:w-1/2 p-6 sm:p-8 flex flex-col justify-center">
+                  <div className="mb-3 sm:mb-4">
+                    <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium uppercase tracking-wide rounded-full">
                       {service.category}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors duration-300">
+                  
+                  <h3 className="text-xl sm:text-2xl lg:text-2xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors duration-300 leading-tight">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600 text-sm font-medium uppercase tracking-wide mb-4">
+                  
+                  <p className="text-gray-600 text-xs sm:text-sm font-medium uppercase tracking-wide mb-3 sm:mb-4">
                     {service.subtitle}
                   </p>
-                  <p className="text-gray-700 leading-relaxed mb-6">
+                  
+                  <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
                     {service.description}
                   </p>
-                  <div className="grid grid-cols-2 gap-2">
+                  
+                  {/* Features Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                     {service.features.map(feature => (
-                      <div key={feature} className="flex items-center text-sm text-gray-600">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></div>
-                        {feature}
+                      <div key={feature} className="flex items-center text-xs sm:text-sm text-gray-600">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2 flex-shrink-0"></div>
+                        <span className="leading-tight">{feature}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Image - positioned based on index */}
+                {/* Desktop Image - Right side for even indices */}
                 {isEven && (
-                  <div className="w-1/2 overflow-hidden">
+                  <div className="hidden lg:block lg:w-1/2 overflow-hidden order-last">
                     <motion.img 
                       className="w-full h-full object-cover" 
                       src={service.image} 
@@ -220,13 +228,21 @@ const OurService = () => {
           })}
         </motion.div>
 
-        {/* View All Button */}
+        {/* CTA Section */}
         <motion.div 
           className="text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2 }}
         >
+          <motion.button
+            className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm sm:text-base"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Get Started Today
+            <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+          </motion.button>
         </motion.div>
       </div>
     </div>

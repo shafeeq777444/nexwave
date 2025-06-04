@@ -11,6 +11,8 @@ const AgencyLanding = () => {
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=600&fit=crop&crop=face",
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face",
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face",
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face",
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face",
     ];
 
     useEffect(() => {
@@ -58,7 +60,7 @@ const AgencyLanding = () => {
 
                 {/* Team Section */}
                 <section className="max-w-7xl mx-auto px-6 pb-20">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="flex gap-8 overflow-auto wrap-normal">
                         {teamImages.map((image, index) => (
                             <div
                                 key={index}

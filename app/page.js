@@ -1,7 +1,7 @@
 "use client";
 import Footer from "@/components/Footer";
 import OurService from "@/components/Service/OurService";
-import AgencyLanding from "@/components/AboutUs/TeamMembers";
+import TeamMembers from "@/components/AboutUs/TeamMembers";
 import HeroContent from "@/components/Hero/HeroContent";
 import Navbar from "@/components/Navbar";
 import { Element } from "react-scroll";
@@ -18,7 +18,7 @@ export default function Home() {
            
             <Element name="ABOUT US">
                 {/* <MarkoAboutPage /> */}
-                <AgencyLanding />
+                <TeamMembers />
             </Element>
              <Element name="SERVICE">
                 <OurService />
