@@ -1,52 +1,81 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const AgencyLanding = () => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
+    const scrollRefMobile = useRef(null);
+    const scrollRefDesktop = useRef(null);
+    const animationIdMobile = useRef(null);
+    const animationIdDesktop = useRef(null);
+    const startTimeMobile = useRef(0);
+    const startTimeDesktop = useRef(0);
 
-    // Sample team member images (using placeholders)
-    const teamImages = [
+    // Sample team member images (using placeholders) - duplicated for infinite scroll
+    const originalTeamImages = [
         "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=600&fit=crop&crop=face",
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=600&fit=crop&crop=face",
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face",
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face",
         "https://images.unsplash.com/photo-1566492031773-4f4e44671d37?w=400&h=600&fit=crop&crop=face",
         "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=600&fit=crop&crop=face",
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=600&fit=crop&crop=face",
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=600&fit=crop&crop=face",
+        "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=400&h=600&fit=crop&crop=face",
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=600&fit=crop&crop=face",
     ];
 
-    // Auto-scroll functionality
+    // Duplicate images for seamless infinite scroll
+    const teamImages = [...originalTeamImages, ...originalTeamImages];
+
+    // Animation function for mobile
+    const animateMobile = (timestamp) => {
+        if (!startTimeMobile.current) startTimeMobile.current = timestamp;
+        
+        const duration = 40000; // 40 seconds
+        const cardWidth = 320 + 24; // card width + gap
+        const totalWidth = originalTeamImages.length * cardWidth;
+        
+        const elapsed = timestamp - startTimeMobile.current;
+        const progress = (elapsed % duration) / duration;
+        const currentX = -progress * totalWidth;
+        
+        if (scrollRefMobile.current) {
+            scrollRefMobile.current.style.transform = `translateX(${currentX}px)`;
+        }
+        
+        animationIdMobile.current = requestAnimationFrame(animateMobile);
+    };
+
+    // Animation function for desktop
+    const animateDesktop = (timestamp) => {
+        if (!startTimeDesktop.current) startTimeDesktop.current = timestamp;
+        
+        const duration = 60000; // 60 seconds
+        const cardWidth = 280 + 24; // card width + gap
+        const totalWidth = originalTeamImages.length * cardWidth;
+        
+        const elapsed = timestamp - startTimeDesktop.current;
+        const progress = (elapsed % duration) / duration;
+        const currentX = -progress * totalWidth;
+        
+        if (scrollRefDesktop.current) {
+            scrollRefDesktop.current.style.transform = `translateX(${currentX}px)`;
+        }
+        
+        animationIdDesktop.current = requestAnimationFrame(animateDesktop);
+    };
+
     useEffect(() => {
         setIsLoaded(true);
-
-        if (!isPaused) {
-            const interval = setInterval(() => {
-                setCurrentImageIndex((prev) => (prev + 1) % teamImages.length);
-                
-                // Auto-scroll mobile container
-                const mobileContainer = document.querySelector('.mobile-scroll-container');
-                if (mobileContainer) {
-                    const cardWidth = mobileContainer.querySelector('.team-card')?.offsetWidth || 0;
-                    const gap = 24; // 6 * 4px (gap-6)
-                    const scrollPosition = ((currentImageIndex + 1) % teamImages.length) * (cardWidth + gap);
-                    mobileContainer.scrollTo({
-                        left: scrollPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            }, 4000); // 4 seconds interval
-
-            return () => clearInterval(interval);
-        }
-    }, [isPaused, currentImageIndex, teamImages.length]);
-
-    // Handle manual scroll pause/resume
-    const handleMouseEnter = () => setIsPaused(true);
-    const handleMouseLeave = () => setIsPaused(false);
+        
+        // Start animations
+        animationIdMobile.current = requestAnimationFrame(animateMobile);
+        animationIdDesktop.current = requestAnimationFrame(animateDesktop);
+        
+        return () => {
+            if (animationIdMobile.current) cancelAnimationFrame(animationIdMobile.current);
+            if (animationIdDesktop.current) cancelAnimationFrame(animationIdDesktop.current);
+        };
+    }, []);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden font-['Inter','-apple-system','BlinkMacSystemFont','Segoe_UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira_Sans','Droid_Sans','Helvetica_Neue',sans-serif]">
@@ -78,82 +107,36 @@ const AgencyLanding = () => {
             {/* Main Content */}
             <main className="pt-20">
                 {/* Team Section */}
-                <section className="max-w-7xl mx-auto pb-20">
-                    {/* Mobile: Horizontal scroll, Desktop: Grid */}
-                    <div className="px-6 md:px-6">
-                        {/* Mobile horizontal scroll container */}
+                <section className="max-w-full pb-20 overflow-hidden">
+                    {/* Mobile Continuous Scroll */}
+                    <div className="md:hidden relative">
                         <div 
-                            className="md:hidden"
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                        >
-                            <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide px-2 mobile-scroll-container">
-                                {teamImages.map((image, index) => (
-                                    <motion.div
-                                        key={index}
-                                        className="flex-shrink-0 w-[calc(100vw-5rem)] max-w-sm snap-center team-card"
-                                        initial={{ opacity: 0, x: 50 }}
-                                        animate={{ opacity: isLoaded ? 1 : 0, x: isLoaded ? 0 : 50 }}
-                                        transition={{ duration: 0.6, delay: index * 0.1 }}
-                                    >
-                                        <div className="relative group overflow-hidden rounded-2xl aspect-[3/4] bg-gray-200 w-full">
-                                            <img
-                                                src={image}
-                                                alt={`Team member ${index + 1}`}
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                                            {/* Overlay text that appears on hover/touch */}
-                                            <div className="absolute bottom-6 left-6 right-6 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                                <h3 className="text-white font-medium text-xl mb-2">Team Member {index + 1}</h3>
-                                                <p className="text-white/80 text-base">Creative Director</p>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Desktop grid layout */}
-                        <div 
-                            className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
+                            ref={scrollRefMobile}
+                            className="flex gap-6 transition-transform ease-linear"
+                            style={{
+                                width: `${teamImages.length * (320 + 24)}px`, // card width + gap
+                            }}
                         >
                             {teamImages.map((image, index) => (
                                 <motion.div
                                     key={index}
-                                    className={`relative group transition-all duration-1000 ${
-                                        index === currentImageIndex ? 'scale-105 z-10 shadow-2xl' : 'scale-100'
-                                    }`}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 50 }}
-                                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                                    className="flex-shrink-0 w-80 px-2"
+                                    initial={{ opacity: 0, x: 50 }}
+                                    animate={{ opacity: isLoaded ? 1 : 0, x: isLoaded ? 0 : 50 }}
+                                    transition={{ duration: 0.6, delay: (index % originalTeamImages.length) * 0.1 }}
                                 >
-                                    <div className="relative overflow-hidden rounded-2xl aspect-[3/4] bg-gray-200">
+                                    <div className="relative group overflow-hidden rounded-md aspect-[3/4] bg-gray-200 w-full">
                                         <img
                                             src={image}
-                                            alt={`Team member ${index + 1}`}
+                                            alt={`Team member ${(index % originalTeamImages.length) + 1}`}
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
-                                        <div className={`absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent transition-opacity duration-500 ${
-                                            index === currentImageIndex ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                                        }`}></div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                                        {/* Ring indicator for current active card */}
-                                        {/* {index === currentImageIndex && (
-                                            <div className="absolute inset-0 rounded-2xl ring-4 ring-purple-500 ring-opacity-70"></div>
-                                        )} */}
-
-                                        {/* Overlay text that appears on hover or when active */}
-                                        <div className={`absolute bottom-6 left-6 right-6 transform transition-all duration-500 ${
-                                            index === currentImageIndex 
-                                                ? 'translate-y-0 opacity-100' 
-                                                : 'translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
-                                        }`}>
-                                            <h3 className="text-white font-medium text-lg mb-1">Team Member {index + 1}</h3>
-                                            <p className="text-white/80 text-sm">Creative Director</p>
+                                        {/* Overlay text that appears on hover/touch */}
+                                        <div className="absolute bottom-6 left-6 right-6 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                            <h3 className="text-white font-medium text-xl mb-2">Team Member {(index % originalTeamImages.length) + 1}</h3>
+                                            <p className="text-white/80 text-base">Creative Director</p>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -161,17 +144,39 @@ const AgencyLanding = () => {
                         </div>
                     </div>
 
-                    {/* Scroll indicator for mobile */}
-                    <div className="md:hidden flex justify-center mt-6">
-                        <div className="flex space-x-2">
-                            {/* {teamImages.map((_, index) => (
-                                <div
+                    {/* Desktop Continuous Scroll */}
+                    <div className="hidden md:block relative px-6">
+                        <div 
+                            ref={scrollRefDesktop}
+                            className="flex gap-6 transition-transform ease-linear"
+                            style={{
+                                width: `${teamImages.length * (280 + 24)}px`, // card width + gap
+                            }}
+                        >
+                            {teamImages.map((image, index) => (
+                                <motion.div
                                     key={index}
-                                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                                        index === currentImageIndex ? 'bg-purple-500 scale-125' : 'bg-gray-400'
-                                    }`}
-                                ></div>
-                            ))} */}
+                                    className="flex-shrink-0 w-70"
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 50 }}
+                                    transition={{ duration: 0.6, delay: (index % originalTeamImages.length) * 0.1 }}
+                                >
+                                    <div className="relative group overflow-hidden rounded-md aspect-[3/5] bg-gray-200 w-full hover:scale-105 transition-transform duration-500">
+                                        <img
+                                            src={image}
+                                            alt={`Team member ${(index % originalTeamImages.length) + 1}`}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                                        {/* Overlay text that appears on hover */}
+                                        <div className="absolute bottom-6 left-6 right-6 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                            <h3 className="text-white font-medium text-lg mb-1">Team Member {(index % originalTeamImages.length) + 1}</h3>
+                                            <p className="text-white/80 text-sm">Creative Director</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -183,7 +188,7 @@ const AgencyLanding = () => {
                 </div>
             </main>
 
-            {/* Custom CSS for hiding scrollbar */}
+            {/* Custom CSS */}
             <style jsx>{`
                 .scrollbar-hide {
                     -ms-overflow-style: none;
@@ -191,6 +196,10 @@ const AgencyLanding = () => {
                 }
                 .scrollbar-hide::-webkit-scrollbar {
                     display: none;
+                }
+
+                .w-70 {
+                    width: 280px;
                 }
             `}</style>
         </div>

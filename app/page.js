@@ -17,8 +17,8 @@ export default function Home() {
             </Element>
            
             <Element name="ABOUT US">
-                {/* <MarkoAboutPage /> */}
-                <TeamMembers />
+                <MarkoAboutPage />
+                {/* <TeamMembers /> */}
             </Element>
              <Element name="SERVICE">
                 <OurService />

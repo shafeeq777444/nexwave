@@ -61,13 +61,14 @@ const HeroContent = () => {
               variants={staggerContainer}
               initial="hidden"
               animate={mainTextInView ? "visible" : "hidden"}
+              className="cursor-default"
             >
-              <h1 className="text-black text-6xl font-bold mb-3">
-                <strong className="text-nexblue">NEXTWAVE</strong> DIGITAL MARKETING
+              <h1 className="text-black md:text-6xl text-3xl font-bold mb-3">
+                <strong  className="text-nexblue cursor-default">NEXTWAVE</strong> DIGITAL MARKETING
               </h1>
 
               {/* Highlight */}
-              <p className="text-nexblue font-semibold mb-6 text-3xl uppercase">
+              <p className="text-nexblue font-semibold mb-6 md:text-3xl text-xl uppercase">
                 Stay ahead of the curve with forward-thinking strategies.
               </p>
 
@@ -76,16 +77,18 @@ const HeroContent = () => {
                 Tirur’s Premier Digital Marketing Agency
 
                 <br />
-                We combine technology, psychology, and creativity to deliver data-driven marketing that attracts, engages, and converts. From SEO and social media to branding and paid ads, we help your business grow with measurable results.
+               We use tech, psychology, and creativity to deliver marketing that grows your business through SEO, branding, and ads
               </section>
 
               {/* Buttons */}
               <div className="flex gap-4 mb-8">
-                <button className="bg-black flex gap-4 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800 transition">
-                  Contact Us
-                  <Phone width={15}/>
-                </button>
-                <button className="  text-black px-8 py-2 rounded-md font-semibold hover:bg-black hover:text-white transition duration-50 ease-in">
+                <a href="tel:6282349415">
+                  <button  className="bg-black flex gap-4 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800 transition">
+                    Contact Us
+                    <Phone width={15}/>
+                  </button>
+                </a>
+                <button className="  text-black px-8 py-2 rounded-md font-semibold hover:bg-black hover:text-white transition-all  duration-50 ">
                   About us
                 </button>
               </div>
@@ -93,7 +96,7 @@ const HeroContent = () => {
               {/* Social Media Icons */}
               <div className="flex gap-6 text-black">
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/nexwave_digital_media?igsh=MTF3c21vNTBrajA0Nw=="
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
@@ -103,7 +106,7 @@ const HeroContent = () => {
                 </a>
 
                 <a
-                  href="https://wa.me/your-number"
+                  href="https://wa.me/qr/334GOMNMGVQKF1"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="WhatsApp"

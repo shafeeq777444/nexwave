@@ -44,25 +44,24 @@ const HeroAstro = () => {
     };
 
     return (
-        <div className="relative rounded-2xl h-[80vh] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
-            {/* Animated background elements */}
-            <motion.div
-                className="absolute top-20 left-[20%] bg-gradient-to-r rounded-xl p-4 shadow-lg"
-                animate={{
-                    y: [0, -10, 0],
-                }}
-                transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                }}
-            >
-                <div className="flex items-center justify-center space-x-1">
-                    <div className="flex items-center space-x-2 text-white">
-                        <span className="font-bold text-lg text-center">"Taking your business to new heights"</span>
-                    </div>
-                    <TrendingUp className="w-4 h-4 text-white" />
-                </div>
+     <div className="relative rounded-2xl h-[80vh] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
+  {/* Animated background elements */}
+  <motion.div
+    className="absolute  top-40 md:top-10 left-1/2 transform -translate-x-1/2 rounded-xl  py-2 shadow-lg"
+    animate={{ y: [0, -10, 0] }}
+    transition={{
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+  >
+    <div className="flex flex-row items-center justify-center  w-120 text-white">
+      <span className="font-bold text-sm md:text-lg  text-center">
+        "Taking your business to new heights"
+      </span>
+      <TrendingUp className="w-4 h-4 text-white" />
+    </div>
+
             </motion.div>
             <div className="absolute inset-0">
                 {/* Stars */}
@@ -148,7 +147,7 @@ const HeroAstro = () => {
                             return (
                                 <motion.div
                                     key={i}
-                                    className="absolute bg-white/10 backdrop-blur-md rounded-xl p-3 shadow-lg text-white text-xs font-semibold flex flex-col items-center"
+                                    className="absolute hidden  bg-white/10 backdrop-blur-md rounded-xl p-3 shadow-lg text-white text-xs font-semibold md:flex flex-col items-center"
                                     style={{
                                         top: `calc(48% + ${y}px)`,
                                         left: `calc(45% + ${x}px)`,

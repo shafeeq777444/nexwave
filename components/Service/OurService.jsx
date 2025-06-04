@@ -235,14 +235,16 @@ const OurService = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2 }}
         >
-          <motion.button
-            className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm sm:text-base"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started Today
-            <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
-          </motion.button>
+          <a href="tel:6282349415">
+            <motion.button
+              className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors duration-300 text-sm sm:text-base"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started Today
+              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+            </motion.button>
+          </a>
         </motion.div>
       </div>
     </div>
