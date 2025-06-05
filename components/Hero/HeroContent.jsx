@@ -64,7 +64,7 @@ const HeroContent = () => {
               className="cursor-default"
             >
               <h1 className="text-black md:text-6xl text-3xl font-bold mb-3">
-                <strong  className="text-nexblue cursor-default">NEXTWAVE</strong> DIGITAL MARKETING
+                <strong  className="text-nexblue cursor-default">NEXWAVE</strong> DIGITAL MARKETING
               </h1>
 
               {/* Highlight */}

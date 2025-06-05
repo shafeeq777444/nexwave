@@ -117,7 +117,7 @@ const AgencyLanding = () => {
                                 width: `${teamImages.length * (320 + 24)}px`, // card width + gap
                             }}
                         >
-                            {teamImages.map((image, index) => (
+                            {/* {teamImages.map((image, index) => (
                                 <motion.div
                                     key={index}
                                     className="flex-shrink-0 w-80 px-2"
@@ -133,14 +133,14 @@ const AgencyLanding = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                                        {/* Overlay text that appears on hover/touch */}
+
                                         <div className="absolute bottom-6 left-6 right-6 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                                             <h3 className="text-white font-medium text-xl mb-2">Team Member {(index % originalTeamImages.length) + 1}</h3>
                                             <p className="text-white/80 text-base">Creative Director</p>
                                         </div>
                                     </div>
                                 </motion.div>
-                            ))}
+                            ))} */}
                         </div>
                     </div>
 
@@ -153,7 +153,7 @@ const AgencyLanding = () => {
                                 width: `${teamImages.length * (280 + 24)}px`, // card width + gap
                             }}
                         >
-                            {teamImages.map((image, index) => (
+                            {/* {teamImages.map((image, index) => (
                                 <motion.div
                                     key={index}
                                     className="flex-shrink-0 w-70"
@@ -169,14 +169,14 @@ const AgencyLanding = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                                        {/* Overlay text that appears on hover */}
+
                                         <div className="absolute bottom-6 left-6 right-6 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                                             <h3 className="text-white font-medium text-lg mb-1">Team Member {(index % originalTeamImages.length) + 1}</h3>
                                             <p className="text-white/80 text-sm">Creative Director</p>
                                         </div>
                                     </div>
                                 </motion.div>
-                            ))}
+                            ))} */}
                         </div>
                     </div>
                 </section>

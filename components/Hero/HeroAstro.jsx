@@ -57,7 +57,7 @@ const HeroAstro = () => {
     }, []);
 
     return (
-        <div className="relative rounded-2xl h-[80vh] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
+        <div className="relative rounded-2xl h-[78vh] md:h-[80vh] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
             {/* Animated background elements */}
             <motion.div
                 className="absolute  top-40 md:top-10 left-1/2 transform -translate-x-1/2 rounded-xl  py-2 shadow-lg"
